@@ -115,7 +115,7 @@ function drawOnCanvas (stroke) {
       }
     }
 
-    download(csvContent, 'data.csv', 'text/csv;encoding:utf-8');
+    //download(csvContent, 'data.csv', 'text/csv;encoding:utf-8');
 
     points = []
   })
