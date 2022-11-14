@@ -1,5 +1,6 @@
 // set canvas size
 const canvas = document.querySelectorAll('canvas')[0]
+const button = document.querySelectorAll('button')[0]
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -119,3 +120,5 @@ function drawOnCanvas (stroke) {
 
     points = []
   })
+
+  button.onclick = ()=> window.location.href =canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
