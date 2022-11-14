@@ -1,6 +1,7 @@
 // set canvas size
 const canvas = document.querySelectorAll('canvas')[0]
-const button = document.querySelectorAll('button')[0]
+const csvbutton = document.querySelectorAll('button')[0]
+const jpgbutton = document.querySelectorAll('button')[1]
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -13,6 +14,7 @@ let isMousedown = false
 // save list of points (needed for drawing but also sketch rec)
 let points = []
 
+let csvContent=[]
 
 /**
  * This function takes in an array of points and draws them onto the canvas.
@@ -93,32 +95,32 @@ function drawOnCanvas (stroke) {
     lineWidth = 0
     
     console.log(points)
-    let csvContent = points.map(p => [p.time, p.x, p.y]).join("\n");
-
-    var download = function(content, fileName, mimeType) {
-      var a = document.createElement('a');
-      mimeType = mimeType || 'application/octet-stream';
-
-      if (navigator.msSaveBlob) { // IE10
-        navigator.msSaveBlob(new Blob([content], {
-          type: mimeType
-        }), fileName);
-      } else if (URL && 'download' in a) { //html5 A[download]
-        a.href = URL.createObjectURL(new Blob([content], {
-          type: mimeType
-        }));
-        a.setAttribute('download', fileName);
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } else {
-        location.href = 'data:application/octet-stream,' + encodeURIComponent(content); // only this mime type is supported
-      }
-    }
-
     //download(csvContent, 'data.csv', 'text/csv;encoding:utf-8');
-
+    csvContent += points.map(p => [p.time, p.x, p.y]).join("\n");
+    console.log(csvContent);
     points = []
   })
 
-  button.onclick = ()=> window.location.href =canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+  var download = function(content, fileName, mimeType) {
+    var a = document.createElement('a');
+    mimeType = mimeType || 'application/octet-stream';
+
+    if (navigator.msSaveBlob) { // IE10
+      navigator.msSaveBlob(new Blob([content], {
+        type: mimeType
+      }), fileName);
+    } else if (URL && 'download' in a) { //html5 A[download]
+      a.href = URL.createObjectURL(new Blob([content], {
+        type: mimeType
+      }));
+      a.setAttribute('download', fileName);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } else {
+      location.href = 'data:application/octet-stream,' + encodeURIComponent(content); // only this mime type is supported
+    }
+  }
+
+  jpgbutton.onclick = ()=> window.location.href =canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+  csvbutton.onclick = ()=> download(csvContent,'data.csv', 'text/csv;encoding:utf-8');
