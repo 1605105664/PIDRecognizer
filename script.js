@@ -96,7 +96,7 @@ function drawOnCanvas (stroke) {
     
     console.log(points)
     //download(csvContent, 'data.csv', 'text/csv;encoding:utf-8');
-    csvContent += points.map(p => [p.time, p.x, p.y]).join("\n");
+    csvContent += points.map(p => [p.time, p.x, p.y]).join("\n")+"\n";
     console.log(csvContent);
     points = []
   })
